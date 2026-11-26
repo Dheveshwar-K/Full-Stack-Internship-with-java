@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status Monitor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 350px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #banner {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            background-color: green;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>System Monitor</h1>
+
+        <div id="banner">System is Online</div>
+
+        <p id="welcome">Welcome to the System Monitor!</p>
+
+        <button id="checkBtn">Check System Status</button>
+    </div>
+
+    <script>
+        const banner = document.querySelector("#banner");
+        const button = document.querySelector("#checkBtn");
+
+        // Arrow function to update banner
+        const updateBanner = (message, color) => {
+            banner.textContent = message;
+            banner.style.backgroundColor = color;
+        };
+
+        // Welcome message when page loads
+        window.addEventListener("load", () => {
+            alert("Welcome to the System Monitor!");
+        });
+
+        // Promise to check system status
+        const checkSystem = () => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const isOnline = Math.random() > 0.5;
+
+                    if (isOnline) {
+                        resolve("System is Online");
+                    } else {
+                        reject("System is Offline");
+                    }
+                }, 2000);
+            });
+        };
+
+        // Button click event
+        button.addEventListener("click", () => {
+
+            updateBanner("System is Checking...", "orange");
+            button.disabled = true;
+
+            checkSystem()
+                .then((message) => {
+                    updateBanner(message, "green");
+                })
+                .catch((message) => {
+                    updateBanner(message, "red");
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
+
+        });
+    </script>
+
+</body>
+</html>
